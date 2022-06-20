@@ -1,52 +1,55 @@
 # Assignment: ASSIGNMENT 0
-# Name: Lastname, Firstname
-# Date: 2010-02-14
+# Name: Pashtunyar, Shaquiel
+# Date: 2022-06-19
 
 # Basics
 
 ## Add 8 and 5
-___
-
+valueA<-8+5
+print(valueA)
 ## Subtract 6 from 22
-___
-
+valueB<-22-6
+print(valueB)
 ## Multiply 6 by 7
-___
-
+valueC<-6*7
+print(valueC)
 ## Add 4 to 6 and divide the result by 2
-___
+valueD<-(4+6)/2
+print(valueD)
 
 ## Compute 5 modulo 2
-___
+valueE<-5%%2
+print(valueE)
 
 ## Assign the value 82 to the variable x
 ## Print x
-x <- ___
-x
+x <- 82
+print(x)
 
 ## Assign the value 41 to the variable y
 ## Print y
-y <- ___
-___
+y <- 41
+print(y)
 
 ## Assign the output of x + y to the variable z
 ## Print z
-z <- ___
-___
+z <- x+y
+print(z)
 
 ## Assign the string value "DSC520" to the variable class_name
 ## Print the value of class_name
-class_name <- ___
+class_name <- "DSC520"
+print(class_name)
 
 ## Assign the string value of TRUE to the variable is_good
 ## Print the value of is_good
-is_good <- ___
+is_good <- "True"
 
 ## Check the class of the variable is_good using the `class()` function
-___
+class(is_good)
 
 ## Check the class of the variable z using the `class()` function
-___
+class(z)
 
 ## Check the class of the variable class_name using the class() function
-___
+class(class_name)
