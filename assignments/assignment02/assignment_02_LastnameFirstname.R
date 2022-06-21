@@ -1,49 +1,50 @@
 # Assignment: ASSIGNMENT 2
-# Name: Lastname, Firstname
-# Date: 2010-02-14
+# Name: Pashtunyar,Shaquiel
+# Date: 2022-06-19
 
 ## Check your current working directory using `getwd()`
-___
+getwd()
 
 ## List the contents of the working directory with the `dir()` function
-___
+dir()
 
 ## If the current directory does not contain the `data` directory, set the
 ## working directory to project root folder (the folder should contain the `data` directory
 ## Use `setwd()` if needed
-setwd("/home/jdoe/Workspaces/dsc520")
-
+setwd("C:/Users/spashtunyar/Documents/school")
+dir()
 ## Load the file `data/tidynomicon/person.csv` to `person_df1` using `read.csv`
 ## Examine the structure of `person_df1` using `str()`
-person_df1 <- ___
-___
-
+person_df1 <- read.csv("data/tidynomicon/person.csv")
+str(person_df1)
 ## R interpreted names as factors, which is not the behavior we want
 ## Load the same file to person_df2 using `read.csv` and setting `stringsAsFactors` to `FALSE`
 ## Examine the structure of `person_df2` using `str()`
-person_df2 <- ___
-___
+person_df2 <- read.csv("data/tidynomicon/person.csv",stringsAsFactors = FALSE)
+str(person_df2)
 
 ## Read the file `data/scores.csv` to `scores_df`
 ## Display summary statistics using the `summary()` function
-scores_df <- ___
-___
+scores_df <- read.csv("data/scores.csv")
+summary(scores_df)
 
 ## Load the `readxl` library
-library(___)
+install.packages("readxl")
+library(readxl)
 
 ## Using the excel_sheets() function from the `readxl` package,
 ## list the worksheets from the file `data/G04ResultsDetail2004-11-02.xls`
-___
+excel_sheets("data/G04ResultsDetail2004-11-02.xls")
 
 ## Using the `read_excel` function, read the Voter Turnout sheet
 ## from the `data/G04ResultsDetail2004-11-02.xls`
 ## Assign the data to the `voter_turnout_df1`
 ## The header is in the second row, so make sure to skip the first row
 ## Examine the structure of `voter_turnout_df1` using `str()`
+read_excel("data/G04ResultsDetail2004-11-02.xls")
 
-voter_turnout_df1 <- ___
-___
+voter_turnout_df1 <- excel_sheets("data/G04ResultsDetail2004-11-02.xls")
+str(voter_turnout_df1)
 
 ## Using the `read_excel()` function, read the Voter Turnout sheet
 ## from `data/G04ResultsDetail2004-11-02.xls`
