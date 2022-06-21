@@ -51,9 +51,9 @@ mean(total_sleep_week1)
 days <- c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
 
 ## Assign the names of each day to `week1_sleep` and `week2_sleep` using the `names` function and `days` vector
-names(week1_sleep) <- c(days)
-names(week2_sleep) <- c(days)
-
+names(week1_sleep) <- days
+names(week2_sleep) <- days
+week1_sleep
 ## Display the amount of sleep on Tuesday of week 1 by selecting the variable name
 week1_sleep[Tuesday]
 
@@ -61,7 +61,7 @@ week1_sleep[Tuesday]
 weekdays <- days[2:6]
 
 ## Create vector called weekends containing Sunday and Saturday
-weekends <- c(1,7)
+weekends <- c(1:7)
 
 ## Calculate the mean about sleep on weekdays for each week
 ## Assign the values to weekdays1_mean and weekdays2_mean
@@ -80,33 +80,33 @@ student01 <- c(100.0, 87.1)
 student02 <- c(77.2, 88.9)
 student03 <- c(66.3, 87.9)
 
-A<-matrix(student01, nrow = 1,ncol = 2)
-B<-matrix(student02, nrow = 1,ncol = 2)
-C<-matrix(student03, nrow = 1,ncol = 2)
+A<-matrix(student01, nrow = 2,ncol = 1)
+B<-matrix(student02, nrow = 2,ncol = 1)
+C<-matrix(student03, nrow = 2,ncol = 1)
 
-students_combined <- matrix(A+B+C, nrow = 2,ncol = 3)
+students_combined <- cbind(A,B,C)
 grades <- matrix(students_combined, byrow = 2, nrow = 2)
 
 ## Add a new student row with `rbind()`
 student04 <- c(95.2, 94.1)
-grades <- rbind(students_combined, student04)
+grades <- rbind(grades, student04)
 
 ## Add a new assignment column with `cbind()`
 assignment04 <- c(92.1, 84.3, 75.1, 97.8)
-grades <- cbind(students_combined, assignment04)
+grades <- cbind(grades, assignment04)
 
 ## Add the following names to columns and rows using `rownames()` and `colnames()`
 assignments <- c("Assignment 1", "Assignment 2", "Assignment 3")
 students <- c("Florinda Baird", "Jinny Foss", "Lou Purvis", "Nola Maloney")
 
-rownames(students_combined) <- assignments
-colnames(students_combined) <- students
+rownames(grades) <- assignments
+colnames(grades) <- students
 
 ## Total points for each assignment using `colSums()`
-colSums(students_combined)
+colSums(grades)
 
 ## Total points for each student using `rowSums()`
-rowSums(students_combined)
+rowSums(grades)
 
 ## Matrix with 10% and add it to grades
 weighted_grades <- grades * 0.1 + grades
