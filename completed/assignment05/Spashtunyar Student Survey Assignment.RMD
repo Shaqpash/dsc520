@@ -8,12 +8,6 @@ output:
   word_document: default
 bibliography: bibliography.bib
 ---
-library(xtable)
-library(tinytex)
-library(plyr)
-library(Rmisc)
-library(psychometric)
-library(ppcor)
 ## Set the working directory to the root of your DSC 520 directory
 setwd("C:/Users/spashtunyar/Documents/school/DSC0520/")
 dir()
