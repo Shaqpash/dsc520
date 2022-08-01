@@ -1,0 +1,48 @@
+---
+pdf_document: default
+author: "Shaquiel Pashtunyar"
+date: "2022-08-01"
+output:
+  html_document: default
+  pdf_document: default
+title: "McDonalds vs BK DSC520 Final Project"
+---
+
+### For my final project I will be looking at the nutritional value of iconic menu items at Burger King and Mcdonalds to find out which is healthier.
+
+## Introduction
+The fast food industry in America is at the heart and bellies of many Americans. Nothing says America like the burger and McDonalds and Burger King are both known for their iconic menu items. With that said, which menu is healthier and better for you and which iconic items stack up nutritional best among the two.
+
+## Research questions 
+
+1) Is McDonalds Big Mac healthier than the Iconic BK Whooper
+2) What is the difference in the fries between the two locations
+3) What dessert items do each have and how do they compare?
+4) Does either establishment have healthy low calorie menu options?
+5) What does a complete meal, Burger, Fries, and Drink, compare to one another
+6) Does Mcdonalds in other countries have different nutritional values
+7) Overall if you were on a diet, which would you pick and how would you order at each
+
+## Planning
+I have a few different data sets from Mcdonalds menu items, Burger Kings, and Mcdonalds from India. This will give me the ammo to make some graphs and comparisons
+
+## How I plan to solve
+If we can do some statistical comparison, we can find out who has healthier items on their menu. We can make charts, like histograms to easily identify the better menu items, and compare the results among items. 
+
+## Data 
+1) https://www.kaggle.com/datasets/denizyigit/fast-food-chains-nutrition-values
+2) https://www.kaggle.com/datasets/mcdonalds/nutrition-facts
+3) https://www.kaggle.com/datasets/deepcontractor/mcdonalds-india-menu-nutrition-facts
+
+## Required Packages
+
+library(ggplot2)
+library(purrr)
+library(plyr)
+library(dplyr)
+
+## Plots and Tables Needed
+I will need several histograms in order to compare values. Scatter plots and trend line of calorie values across several food categories. I need to use R markdown and some packages to neatly present the data
+
+## Questions and future steps
+How does this compare to other fast food chains, how far can I take this? If there is a difference between America and India, does BK have regional differences, how about Europe or Asia where the food may be healthier or worse?
