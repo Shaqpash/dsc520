@@ -1,0 +1,116 @@
+---
+title: "10.2 Clustering"
+author: "Shaquiel Pashtunyar"
+date: "2022-08-11"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r DataFrames, include=FALSE}
+#import data sets
+setwd("C:/Users/spashtunyar/Documents/school/DSC0520/")
+binary_df <- read.csv("data/binary-classifier-data.csv")
+
+trinary_df <- read.csv("data/trinary-classifier-data.csv")
+
+#scatterplots
+library("ggplot2")
+```
+
+## Scatterplots of both data sets
+
+```{r Data frames, echo=FALSE}
+ggplot(binary_df, aes(x=x, y=y, color=label))+geom_point()+ggtitle("Binary Data")
+
+ggplot(trinary_df, aes(x=x, y=y, color=label))+geom_point()+ggtitle("Trianry Data")
+```
+
+# Fit a k nearest neighbors’ model for each dataset for k=3, k=5, k=10, k=15, k=20, and k=25. Compute the accuracy of the resulting models for each value of k. 
+# Plot the results in a graph where the x-axis is the different values of k and the y-axis is the accuracy of the model.
+
+```{r DataFrames2, include=FALSE}
+library(useful)
+
+#drop label
+binaryclustering <- binary_df[, which(names(binary_df) !="label")]
+Trinaryclustering <- trinary_df[, which(names(binary_df) !="label")]
+set.seed(1500)
+#plotting binary 3,5,10,15,20,25
+binaryK3 <- kmeans(x=binaryclustering,centers = 3)
+binaryK5 <- kmeans(x=binaryclustering,centers = 5)
+binaryK10 <- kmeans(x=binaryclustering,centers = 10)
+binaryK15 <- kmeans(x=binaryclustering,centers = 15)
+binaryK20 <- kmeans(x=binaryclustering,centers = 20)
+binaryK25 <- kmeans(x=binaryclustering,centers = 25)
+bestbinary <- FitKMeans(binaryclustering, max.clusters = 25, seed = 1500)
+
+besttrinary <- FitKMeans(Trinaryclustering, max.clusters = 25, seed = 1500)
+
+```
+
+## Binary Plots
+
+```{r Data frames3, echo=FALSE}
+
+
+plot(binaryK3, data = binaryclustering, title = "Binary K3")
+plot(binaryK5, data = binaryclustering, title = "Binary K5")
+plot(binaryK10, data = binaryclustering, title = "Binary K10")
+plot(binaryK15, data = binaryclustering, title = "Binary K15")
+plot(binaryK20, data = binaryclustering, title = "Binary K20")
+plot(binaryK25, data = binaryclustering, title = "Binary K25")
+
+PlotHartigan(bestbinary, title = "Binary Hartigan")
+```
+
+The best number of clusters to use here is 12
+
+## Trinary Hartigan
+```{r Data frames4, echo=FALSE}
+PlotHartigan(besttrinary)
+```
+
+20 is the best fit here
+
+
+Q1 Just by lookinmg at the two scatterplots, we can see that the data doesn't really show a linear model, so a linear classifier would not be better
+We can also see that each color clusters together in different regions
+
+# Q4
+```{r Data frames5, echo=FALSE}
+clustering <- read.csv("data/clustering-data.csv")
+K2 <- kmeans(x=clustering,centers = 2)
+K3 <- kmeans(x=clustering,centers = 3)
+K4 <- kmeans(x=clustering,centers = 4)
+K5 <- kmeans(x=clustering,centers = 5)
+K6 <- kmeans(x=clustering,centers = 6)
+K7 <- kmeans(x=clustering,centers = 7)
+K8 <- kmeans(x=clustering,centers = 8)
+K9 <- kmeans(x=clustering,centers = 9)
+K10 <- kmeans(x=clustering,centers = 10)
+K11 <- kmeans(x=clustering,centers = 11)
+K12 <- kmeans(x=clustering,centers = 12)
+```
+
+```{r Data frames6, echo=FALSE}
+plot (K2, data = clustering)
+plot (K3, data = clustering)
+plot (K4, data = clustering)
+plot (K5, data = clustering)
+plot (K6, data = clustering)
+plot (K7, data = clustering)
+plot (K8, data = clustering)
+plot (K9, data = clustering)
+plot (K10, data = clustering)
+plot (K11, data = clustering)
+plot (K12, data = clustering)
+
+euclidean<- function(a, b) sqrt(sum((a-b)^2))
+
+euclidean(clustering$x, clustering$y)
+```
+
+At this point I do not know how to use the euclidean function exactly. I see it is telling me the distance of points, but how i get that number per cluster is unknown.
+
+I am unsure how to proceed from here for questions 5 and 6. 
