@@ -1,0 +1,188 @@
+---
+title: "McDonalds vs BK DSC520 Final Project"
+author: "Shaquiel Pashtunyar"
+date: "2022-08-11"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+
+```{r DataFrames, include=FALSE}
+setwd("C:/Users/spashtunyar/Documents/school/DSC0520/Final Project")
+```
+
+
+## The American Fast Food Burger
+
+Burgers are an American tradition, its part of our culture. Over the last century we have not only seen the rise of the burger, but fast food chains that are bringing this delicacy worldwide. The two largest burger chains in America are McDonald with their golden arches, and Burger King and its crown. We can even see their global dominance and reach, with their competition known as the biggest fast food brand off. With that being said, both chains have iconic meals recognizable anywhere you go. McDonald has the Big Mac and Burger King (BK) has the Whooper as their trademarked meals. 
+
+![McDonalds vs BK Global Presence(Heat Map)](world.png)
+
+## The Health Dilemma 
+
+Both of the fast food chains, while convenient and providing great bargains for food, are known to not be the healthiest. One question to ask is which of the two have a healthier menu. Comparing Burgers and Fries, can we identify which of the two is better for you. Another question is since these restaurants are global chains, do the menus in other countries have healthier options than those that are within America? In order to solve these questions we will be pull data from the nutritional fact tables of both chains, as well as the McDonald chain in India to make some comparisons. We will be comparing the composition of their key items, looking at the calories, carbs, sodium and fats, and hopefully identifying any trends leading us to the healthier fast food option!
+
+```{r Prep Data, include=FALSE}
+#prepping data set
+setwd("C:/Users/spashtunyar/Documents/school/DSC0520/Final Project")
+dir()
+IndiaMD <- read.csv("India_Menu.csv")
+MD_Menu <- read.csv("Mcdonalds_Menu.csv")
+
+#Had to parse out the delimiter of a ; to a , to make is CSV formatable 
+MDBK_Menu <- read.csv("BKMD.csv")
+
+#MD_Menu is an overlap of the MD/BK Menu, Ignoring.
+
+#Dropping columns that don't match
+drop <- c("Calories.from.fat","Total.sugar..g.","c000016","c000017","Dietary.Fiber..g.")
+df1 = MDBK_Menu[,!(names(MDBK_Menu) %in% drop)]
+
+head(IndiaMD)
+drop2 <- c("Added.Sugars..g.")
+df2 = IndiaMD[,!(names(IndiaMD) %in% drop2)]
+
+
+#so I am changing the column titles of the India dataset to match the MDBK one for comparison, also renaming MDBK for comparison
+names(df2) <- c('Type', 'Item', 'Serving.Size.g', 'Calories', 'Protein.g', 'Total.Fat.g', 
+                       'Saturated.Fat.g', 'Trans.Fat.g', 'Chol.mg', 'Total.Carb.g', 'Total.Sugar.g',
+                        'Sodium.mg')
+
+names(df1) <- c('Chain', 'Item', 'Type', 'Serving.Size.g', 'Calories', 'Total.Fat.g', 
+                'Saturated.Fat.g', 'Trans.Fat.g', 'Chol.mg', 'Sodium.mg','Total.Carb.g', 'Total.Sugar.g',
+                'Protein.g')
+
+#adding chain column to India MD
+Chain <- c('IndiaMD')           
+df2$Chain <- Chain
+
+#Merge the tables so we have 1 complete data table to use
+FinalDFMDBK <- rbind(df1,df2)
+library("ggplot2")
+```
+
+## Analysis 
+
+The first thing necessary is to combine the data sets from McDonald America, McDonald India, and BK. With One data set we have all the data we need to make our comparisons. We have variables like calories, fat content, cholesterol, sodium, carbs, sugars, and protein for each of the items. We also have an identifier for which menu each item came from. A sample of the data set looks like this. 
+
+```{r header, echo=FALSE}
+head(FinalDFMDBK)
+```
+
+Now we can start splitting the data set into smaller samples. The first to tackle is the iconic burger battle of the Burger King Whooper and the McDonald Big Mac/Double Quarter Pounder/and Big and Tasty. The Whooper comes in three sizes so we will compare all of them to the McDonald line up. 
+
+From here we can see that McDonald's has fewer calories on average than BK items. 
+
+```{r BurgerComparison, echo=FALSE}
+BurgerCompare<- FinalDFMDBK[c(2,5,7,180,181, 183), ]
+ggplot(BurgerCompare, aes(x=Chain,y=Calories,color=Item)) + geom_point() +ggtitle("Calorie Comparison of Iconic Burgers")
+```
+
+We also see a reduction of the Fats and Serving size of McDonald items in Comparison.
+
+```{r Burger Extra Charts, echo=FALSE}
+ggplot(BurgerCompare, aes(x=Chain,y=Total.Fat.g,color=Item)) + geom_point() +ggtitle("Fat Comparison of Iconic Burgers")
+ggplot(BurgerCompare, aes(x=Chain,y=Serving.Size.g,color=Item)) + geom_point() +ggtitle("Serving Size Comparison of Iconic Burgers")
+
+```
+
+Everyone knows you can't order burgers without french fries. This is next on our comparisons. BK has the option of fries or onion rings. The onion rings seem to come in with the same caloric weight as the McDonald french fries. We can see that a medium fries is slightly more calories at BK than McDonalds. 
+
+```{r French Frie Comparison, echo=FALSE}
+FriesCompare<-FinalDFMDBK[c(210,50,54), ]
+
+ggplot(FriesCompare, aes(x=Chain,y=Calories,color=Item)) + geom_point() +ggtitle("Calorie Comparison of French Fries!")
+ggplot(FriesCompare, aes(x=Chain,y=Serving.Size.g,color=Item)) + geom_point() +ggtitle("Potate Serving Size")
+```
+
+So far in our analysis, we are noticing with the two menu items that McDonalds is slightly healthier than BK in America. Both of these companies are international franchises with diverse menus across the world. Lets take a second to compare the menu of India's McDonald vs Americas to see if there are any trends.
+
+India doesn't typically have as much meat on the menu, so we have hand selected a few items for comparison.
+What we can see from the small selection is that India's burgers are less calories than Americas. 
+
+``` {r India Compare 1, echo=FALSE}
+IndiaMDCompare<-FinalDFMDBK[c(180,181, 183, 501, 510, 512), ]
+ggplot(IndiaMDCompare, aes(x=Chain,y=Calories,color=Item)) + geom_point() +ggtitle("Calorie Comparison of Indian vs American Burgers")
+```
+
+We also see the same the serving size and fat content being lower in India than America. 
+``` {r India Compare 2, echo=FALSE}
+ggplot(IndiaMDCompare, aes(x=Chain,y=Total.Fat.g,color=Item)) + geom_point() +ggtitle("Fat Comparison of Indian vs American Burgers")
+ggplot(IndiaMDCompare, aes(x=Chain,y=Serving.Size.g,color=Item)) + geom_point() +ggtitle("Serving Size Comparison of Indian vs American Burgers")
+```
+
+One more comparison between the two would be the french fries, here we would expect India and America to be the same size since its the same item. India also serves potatoes as a side. 
+
+Instead what we are seeing is that India MD has a smaller serving size, caloric value, and sodium content then Americas. 
+``` {r India Compare 3, echo=FALSE}
+IndiaFriesCompare<-FinalDFMDBK[c(210,527,530), ]
+ggplot(IndiaFriesCompare, aes(x=Chain,y=Calories,color=Item)) + geom_point() +ggtitle("America vs India French Fry Caloric Comparison")
+ggplot(IndiaFriesCompare, aes(x=Chain,y=Serving.Size.g,color=Item)) + geom_point() +ggtitle("America vs India French Fry Sodium Comparison")
+ggplot(IndiaFriesCompare, aes(x=Chain,y=Sodium.mg,color=Item)) + geom_point() +ggtitle("America vs India French Fry Serving SizeComparison")
+```
+
+## Analysis Summary 1
+So far we have compared the iconic burgers of BK, McDonald America, and McDonald India. We have seen that BK has the most calories per serving in their meals. We have also seen that Indian Mcdonalds tends to have smaller serving sizes than its American counter part for the same item. Now that we have seen 1 to 1 comparisons, we can start looking at larger data sets to see if any of the trends hold true.
+
+## Menu Comparison
+
+One analysis from our initial findings was that India MD was the healthiest. The issue with this study is that we looked at a small sample size. Without taking the entire sandwich lineup into consideration, it is hard to say if one is actually healthier than the other. To solve this, we can compares Whoopers, to MD Burgers, to MD Chicken Sandwiches in India, looking at all sandwich options from each menu. We know chicken is leaner than beef so that could be one explanation for the trend. 
+
+Lets take a look at the entire Sandwich and Burger menu from all three menus. Here we can see that Burger King does have several higher calorie items. 
+The Whooper and the burgers have several entry points over 1000 calories.
+
+``` {r Menu Compare, echo=FALSE}
+MassBurgerCompare<-FinalDFMDBK[c(1:29,175:196,500:518), ]
+ggplot(MassBurgerCompare, aes(x=Chain,y=Calories, color=Type)) + geom_point() +ggtitle("Calorie Comparison of All Sandwiches")
+```
+
+We can use a histogram chart to bin the caloric values from each of the burgers. By doing this we see that India McDonald does have several low calorie burgers and sandwiches. That is not to say that McDonalds America and Burger King don't also have low calorie options, but we do see their menus populated with higher caloric items. 
+
+``` {r Menu Compare 2, echo=FALSE}
+ggplot(MassBurgerCompare, aes(Calories, color=Chain)) + geom_histogram(bins = 22) +ggtitle("Histogram Comparison of All Sandwiches")+ ylab("Number of items within this calorie bin")
+```
+
+One item of interest is the fat content of the burgers. Knowing that fast food is typically on the unhealthier side, we can see if there is a correlation between the fat content and the calories of each of the menu items at each chain.
+
+``` {r Menu Compare 3, echo=FALSE}
+ggplot(MassBurgerCompare, aes(x=Total.Fat.g,y=Calories, color=Chain)) +geom_point() +ggtitle("Fat Comparison of All Sandwiches")
+```
+
+We see that Burger king has the highest fat content, and it has a a clear correlation between fat content and calories. We can dig deeper into this by looking at a smooth line plot
+``` {r Menu Compare 4, echo=FALSE}
+ggplot(MassBurgerCompare, aes(x=Total.Fat.g,y=Calories, color=Chain)) + geom_smooth()+ggtitle("Fat Comparison of All Sandwiches")
+```
+
+The line plot shows an extremely linear tend. We can use the correlation coefficient to see just how correlated the two are. We see and 0.97 correlation showing that the fat content is directly correlated to the calorie content. It is clear in the BK menu, and the two Mcdonalds menu's show a similar, and slightly less correlated trend. 
+``` {r Correlation Comparison 1, echo=TRUE}
+cor(MassBurgerCompare$Total.Fat.g, MassBurgerCompare$Calories)
+```
+
+It is worthwhile to take a look at other metrics like protein, sodium, and sugar to identify if any other nutritional information should be tracked.
+``` {r Correlation Comparison 2, echo=TRUE}
+cor(MassBurgerCompare$Protein.g, MassBurgerCompare$Calories)
+cor(MassBurgerCompare$Sodium.mg, MassBurgerCompare$Calories)
+cor(MassBurgerCompare$Total.Carb.g, MassBurgerCompare$Calories)
+```
+
+We get values between 0.37 to 0.52 for each of these items, this tells us that there likely isn't too much correlation for us to investigate this. 
+
+## Analysis Summary 2
+
+In our second set of analysis, we looked at the menus of each of the chains/locations more holistically. We saw that Burger King has the least healthiest options. We also saw a correlation between the amount of fat within one of the burgers and the calorie value of the burger. 
+
+## Implications
+
+The implications of this work is a clear analysis that BK has unhealthy options. From the fries to the whooper, it is denser and quite a but heavier than McDonald. We also saw that the same menu item in two regions showed different values. This shows that McDonald might just have less healthy options in America. 
+
+## Limitations
+Some of the limitations of this study is that I didn't look at Burger Kings menu internationally. We did see that McDonald was slightly healthier oversees, and this might also be the case for BK. We also didn't have data for the grams of meat as an option. BK does have a higher fat content, and it would be helpful to see if this is just coming from the meat or the sauce or another source. If it is just the meat content and the protein content is also higher in BK, then it might not be as unhealthy as it appears. 
+
+Another thing we didn't spend time looking at was the other menu options like chicken nuggets, drinks, shakes, and dessert. We could have looked for coorelation there as well, but burgers felt like the items that are more typically ordered when going to one of these chains. 
+
+
+# Concluding Remarks
+
+In the end, the Whooper came out as the fattiest burger, the most caloric dense, and the leader of the pack. Whether that is a good or bad thing is for you to decide. We do see McDonald in America and India having healthier options, and even BK has some healthy options for those calorie conscious. The Golden Arches of McDonald and their sandwich lineup, like the Big Mac is healthier than that of BK Whooper. There is plenty of more work that can be done to help identify the best option for you! Even if you do go to BK after this, one thing is certain, stay away from the Whooper. 
